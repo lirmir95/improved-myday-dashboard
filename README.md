@@ -16,40 +16,6 @@ README.md             ← 이 파일
 
 ---
 
-## GitHub Pages 배포 방법
-
-### 1단계 — 저장소 만들기
-
-1. [github.com](https://github.com) 로그인
-2. 우상단 `+` → **New repository**
-3. Repository name: 원하는 이름 (예: `my-finance`)
-4. **Public** 선택 → **Create repository**
-
-### 2단계 — 파일 올리기
-
-저장소 페이지에서 **Add file → Upload files** 클릭 후  
-이 4개 파일을 드래그&드롭 → **Commit changes**
-
-### 3단계 — GitHub Pages 활성화
-
-저장소 **Settings → Pages → Source**를  
-`Deploy from a branch` → `main` 브랜치 → `/ (root)` 선택 → **Save**
-
-### 4단계 — 접속 & 홈화면 추가
-
-몇 분 후 아래 주소로 접속:
-```
-https://[내 GitHub 아이디].github.io/[저장소 이름]/
-```
-
-아이패드 Safari에서:
-1. 위 주소 접속
-2. 공유 버튼(□↑) 탭
-3. **홈 화면에 추가** 선택
-4. 추가 → 이제 앱처럼 실행!
-
----
-
 ## 기능
 
 - **MY FINANCE** — 월별 예산, 고정지출, 저축 계획, 변동지출 캘린더
