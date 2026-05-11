@@ -408,13 +408,11 @@ body{font-family:var(--font-body);background:#F0EAD6;color:var(--ink);padding:0;
 
 /* ═══════════════════════════════════════
    iOS 입력 줌 방지 (font-size >= 16px)
+   color input 제외, transform 스케일 방식으로 project 폰트 깨짐 방지
 ═══════════════════════════════════════ */
-input, textarea, select {
-  font-size:16px !important;
-}
-/* 단, 읽기 전용 텍스트에는 원래 폰트 유지 */
-.stat-val, .stat-lbl, .stat-sub, .sec-tag, .bold-label, .ti {
-  font-size: inherit !important;
+input:not([type=color]):not([type=range]):not([type=checkbox]),
+textarea, select {
+  font-size:max(16px, 1em);
 }
 
 /* ═══════════════════════════════════════
@@ -865,6 +863,7 @@ body.mode-project #project-root{display:block;}
   .mood-cust-row{gap:8px;padding:4px 0;}
   .mood-cust-swatch{width:34px;height:34px;}
   .mood-cust-swatch input[type=color]{opacity:.01;}
+  input[type=color].mood-cust-swatch{width:34px;height:34px;}
   .mood-cust-name-inp{font-size:12px;min-height:34px;padding:5px 6px;}
   .mc-del,.mc-add{min-height:36px;}
 }
@@ -2894,25 +2893,22 @@ function renderMoodCustom(){
   const c=$id('mood-custom');if(!c)return;c.innerHTML='';
   MOODS.forEach(m=>{
     const row=document.createElement('div');row.className='mood-cust-row';
-    // swatch wrapper
-    const sw=document.createElement('div');sw.className='mood-cust-swatch';sw.style.background=m.c;sw.title='클릭해서 색 변경';
-    // Native color input stays tappable on iPad Safari.
+    // color input을 swatch 자체로 사용 (iOS Safari 호환)
     const cI=document.createElement('input');
     cI.type='color';
     cI.value=m.c;
-    cI.style.cssText='position:absolute;inset:0;opacity:.01;cursor:pointer;width:100%;height:100%;border:none;padding:0;';
+    cI.className='mood-cust-swatch';
+    cI.title='탭해서 색 변경';
+    cI.style.cssText='appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--border2);padding:0;cursor:pointer;background:'+m.c+';flex-shrink:0;';
     cI.addEventListener('input',()=>{
       m.c=cI.value;
-      sw.style.background=m.c;
+      cI.style.background=m.c;
       renderArcs();
       renderSlots();
     });
-    sw.appendChild(cI);
-    // click on swatch directly triggers color picker
-    sw.addEventListener('click',()=>cI.click());
     const nI=document.createElement('input');nI.className='mood-cust-name-inp';nI.value=m.l;nI.oninput=()=>{m.l=nI.value;renderSlots();};
     const del=document.createElement('button');del.className='mc-del';del.textContent='×';del.onclick=()=>removeMoodItem(m.k);
-    row.appendChild(sw);row.appendChild(nI);row.appendChild(del);c.appendChild(row);
+    row.appendChild(cI);row.appendChild(nI);row.appendChild(del);c.appendChild(row);
   });
 }
 
