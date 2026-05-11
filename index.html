@@ -434,6 +434,63 @@ body{font-family:var(--font-body);background:#F0EAD6;color:var(--ink);padding:0;
 }
 
 /* ═══════════════════════════════════════
+   모바일 전용 (~ 767px)
+   tracker, 가계부 등 고정폭 레이아웃 대응
+═══════════════════════════════════════ */
+@media(max-width:767px){
+  /* ── 하루 추적: 세로 스택 ── */
+  .tracker-grid{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .clock-col{
+    align-items:center;
+  }
+  #mood-svg{
+    width:min(186px, 80vw);
+    height:min(186px, 80vw);
+  }
+  .tracker-right{
+    min-height:0;
+  }
+  .slots-scroll{
+    max-height:180px;
+  }
+
+  /* ── MY DAY 가계부: 가로 스크롤 컨테이너 ── */
+  #myday-root .myday-finance-panel{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  #myday-root .fin-head,
+  #myday-root #fin-rows .fin-item{
+    min-width:420px; /* 520→420px 축소 */
+  }
+
+  /* ── fin-item 컬럼 압축 ── */
+  #myday-root .fin-item{
+    grid-template-columns:minmax(0,1fr) minmax(60px,.7fr) 70px 80px 36px 16px;
+    gap:3px;
+  }
+
+  /* ── 식사 그리드: 세로 스택 ── */
+  .meal-grid{grid-template-columns:1fr;}
+  .meal-outer{flex-direction:column;}
+
+  /* ── global nav 글자 더 작게 ── */
+  .gnav-btn{font-size:8px;padding:10px 0;letter-spacing:1px;}
+
+  /* ── 월간 stat 카드 2열 ── */
+  .stat-row{grid-template-columns:repeat(2,minmax(0,1fr));}
+
+  /* ── overview 캘린더+사이드바 세로 ── */
+  .fin-cal-outer{grid-template-columns:1fr;}
+
+  /* ── chart split 세로 ── */
+  .ov-chart-split{grid-template-columns:1fr;}
+}
+
+/* ═══════════════════════════════════════
    iPAD 전용 최적화 (768px ~ 1024px, 터치)
 ═══════════════════════════════════════ */
 @media(min-width:768px) and (max-width:1024px) and (pointer:coarse){
