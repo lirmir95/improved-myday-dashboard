@@ -841,8 +841,17 @@ body.mode-project #project-root{display:block;}
   .project-card-title{font-size:9px;letter-spacing:1.4px;}
   .project-lbl,.project-review-title{font-size:8px;}
   .project-inp,.project-ta,.project-sel{font-size:11px;min-height:28px;padding:4px 5px;line-height:1.35;}
-  .project-row.wide{grid-template-columns:22px minmax(0,1fr) 58px 80px minmax(70px,.7fr) 18px;gap:4px;align-items:center;overflow-x:visible;}
-  .project-row.wide .project-extra,.project-row.wide > span:nth-child(6),.project-row.wide .project-progress-read,.project-row.wide > span:nth-child(7){display:none;}
+  /* ② PROJECTS 행: toggle + name + priority + due + status + del = 6셀 */
+  .project-row.wide{
+    grid-template-columns:22px minmax(0,1fr) 52px 72px 62px 18px;
+    gap:4px;align-items:center;
+  }
+  /* next step(5번째), progress(7번째) 숨김 */
+  .project-row.wide .project-next-auto,
+  .project-row.wide .project-extra,
+  .project-row.wide .project-progress-read,
+  .project-row.wide > span:nth-child(6),
+  .project-row.wide > span:nth-child(7){display:none;}
   .project-toggle,.project-del,.project-carry-btn,.project-add,.project-tag-chip,.project-tag-add-btn,.project-qa-add{min-height:36px;}
   .project-tag-chip{font-size:9px;border-radius:12px;padding:6px 8px;}
   .project-meta-grid{grid-template-columns:1fr 48px;gap:8px;}
@@ -4262,7 +4271,7 @@ const PRJ_I18N={
   }
 };
 Object.assign(PRJ_I18N.ko,{
-  logo:'MY PROJECT',tagline:'MONTHLY PLAN · PROJECT LOG',
+  logo:'✦ MY PROJECT ✦',tagline:'MONTHLY PLAN · PROJECT LOG',
   monthPlan:'MONTH PLAN',projects:'PROJECTS',schedule:'SCHEDULE',review:'REVIEW',
   monthlyFocus:'월간 포커스',monthlyGoals:'월간 목표',calendarTitle:'프로젝트 달력',selectedProject:'선택한 프로젝트',nextActions:'오늘 / 다음 행동',monthReview:'월간 리뷰',reviewWins:'성과',reviewBlocked:'막힌 점',reviewNext:'다음 달',
   carryBtn:'미완료 이월',addGoal:'+ 목표 추가',
@@ -4277,7 +4286,7 @@ Object.assign(PRJ_I18N.ko,{
   customize:'CUSTOMIZE',footer:'계획은 작게, 기록은 선명하게'
 });
 Object.assign(PRJ_I18N.en,{
-  logo:'MY PROJECT',tagline:'MONTHLY PLAN · PROJECT LOG',
+  logo:'✦ MY PROJECT ✦',tagline:'MONTHLY PLAN · PROJECT LOG',
   monthPlan:'MONTH PLAN',projects:'PROJECTS',schedule:'SCHEDULE',review:'REVIEW',
   monthlyFocus:'Monthly Focus',monthlyGoals:'Monthly Goals',calendarTitle:'Project Calendar',selectedProject:'Selected Project',nextActions:'Today / Next Actions',monthReview:'Month Review',reviewWins:'Wins',reviewBlocked:'Blocked',reviewNext:'Next Month',
   carryBtn:'Carry Unfinished',addGoal:'+ Add Goal',
