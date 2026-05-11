@@ -407,13 +407,9 @@ body{font-family:var(--font-body);background:#F0EAD6;color:var(--ink);padding:0;
 .page-iframe{padding:0;}
 
 /* ═══════════════════════════════════════
-   iOS 입력 줌 방지 (font-size >= 16px)
-   color input 제외, transform 스케일 방식으로 project 폰트 깨짐 방지
+   iOS 입력 줌 방지
+   viewport의 user-scalable=no로 처리됨 — font-size 별도 조작 불필요
 ═══════════════════════════════════════ */
-input:not([type=color]):not([type=range]):not([type=checkbox]),
-textarea, select {
-  font-size:max(16px, 1em);
-}
 
 /* ═══════════════════════════════════════
    MOBILE BREAKPOINTS
