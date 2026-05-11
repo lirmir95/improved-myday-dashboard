@@ -588,7 +588,7 @@ body.mode-project #project-root{display:block;}
 .mc-title{font-size:8px;font-weight:700;color:var(--ink);letter-spacing:1px;margin-bottom:4px;border-bottom:1.5px solid var(--accent);padding-bottom:2px;}
 .mood-custom{display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto;max-height:120px;}
 .mood-cust-row{display:flex;align-items:center;gap:6px;padding:2px 0;}
-.mood-cust-swatch{width:24px;height:24px;border-radius:50%;flex-shrink:0;position:relative;overflow:hidden;border:1px solid var(--border2);background:var(--paper);}
+.mood-cust-swatch{width:16px;height:16px;border-radius:50%;flex-shrink:0;position:relative;overflow:hidden;border:1px solid var(--border2);background:var(--paper);}
 .mood-cust-swatch input[type=color]{position:absolute;inset:0;opacity:.01;cursor:pointer;width:100%;height:100%;border:none;padding:0;}
 .mood-cust-name-inp{font-family:var(--font-body);font-size:9px;border:none;border-bottom:1px dashed var(--border);background:transparent;color:var(--ink);flex:1;outline:none;padding:1px 2px;}
 .mood-cust-name-inp:focus{background:var(--accent-bg);}
@@ -857,9 +857,8 @@ body.mode-project #project-root{display:block;}
   .project-cal-bar{height:15px;line-height:15px;font-size:8px;border-radius:4px;}
   .project-cal-due{width:13px;height:13px;right:5px;top:5px;}
   .mood-cust-row{gap:8px;padding:4px 0;}
-  .mood-cust-swatch{width:34px;height:34px;}
-  .mood-cust-swatch input[type=color]{opacity:.01;}
-  input[type=color].mood-cust-swatch{width:34px;height:34px;}
+  .mood-cust-swatch{width:16px;height:16px;}
+  .mood-cust-name-inp{font-size:12px;min-height:34px;padding:5px 6px;}
   .mood-cust-name-inp{font-size:12px;min-height:34px;padding:5px 6px;}
   .mc-del,.mc-add{min-height:36px;}
 }
@@ -2887,24 +2886,32 @@ function addMoodItem(){const id=`mood_${moodIdCounter++}`;MOODS.push({k:id,l:'�
 function removeMoodItem(k){MOODS=MOODS.filter(m=>m.k!==k);Object.keys(hourMoods).forEach(h=>{if(hourMoods[h])hourMoods[h]=hourMoods[h].filter(mk=>mk!==k);if(!hourMoods[h]||!hourMoods[h].length)delete hourMoods[h];});renderMoodCustom();renderArcs();renderSlots();}
 function renderMoodCustom(){
   const c=$id('mood-custom');if(!c)return;c.innerHTML='';
-  MOODS.forEach(m=>{
+  MOODS.forEach((m,i)=>{
     const row=document.createElement('div');row.className='mood-cust-row';
-    // color input을 swatch 자체로 사용 (iOS Safari 호환)
+    const uid='mood-color-'+i+'-'+m.k;
+    // label로 감싸서 탭 시 color picker 열림 (iOS Safari 완전 호환)
+    const lbl=document.createElement('label');
+    lbl.htmlFor=uid;
+    lbl.className='mood-cust-swatch';
+    lbl.style.background=m.c;
+    lbl.style.cursor='pointer';
+    lbl.title='탭해서 색 변경';
+    // color input은 완전히 숨김 (display:none이면 iOS도 label 탭으로 열림)
     const cI=document.createElement('input');
     cI.type='color';
+    cI.id=uid;
     cI.value=m.c;
-    cI.className='mood-cust-swatch';
-    cI.title='탭해서 색 변경';
-    cI.style.cssText='appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--border2);padding:0;cursor:pointer;background:'+m.c+';flex-shrink:0;';
+    cI.style.cssText='position:absolute;width:0;height:0;opacity:0;pointer-events:none;';
     cI.addEventListener('input',()=>{
       m.c=cI.value;
-      cI.style.background=m.c;
+      lbl.style.background=m.c;
       renderArcs();
       renderSlots();
     });
+    lbl.appendChild(cI);
     const nI=document.createElement('input');nI.className='mood-cust-name-inp';nI.value=m.l;nI.oninput=()=>{m.l=nI.value;renderSlots();};
     const del=document.createElement('button');del.className='mc-del';del.textContent='×';del.onclick=()=>removeMoodItem(m.k);
-    row.appendChild(cI);row.appendChild(nI);row.appendChild(del);c.appendChild(row);
+    row.appendChild(lbl);row.appendChild(nI);row.appendChild(del);c.appendChild(row);
   });
 }
 
