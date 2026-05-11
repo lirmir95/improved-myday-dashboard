@@ -433,70 +433,7 @@ body{font-family:var(--font-body);background:#F0EAD6;color:var(--ink);padding:0;
   .th-cols{grid-template-columns:1fr;}
 }
 
-/* ═══════════════════════════════════════
-   모바일 전용 (~ 767px)
-   tracker, 가계부 등 고정폭 레이아웃 대응
-═══════════════════════════════════════ */
-@media(max-width:767px){
-  /* ── 하루 추적: 세로 스택 ── */
-  #myday-root .tracker-grid{
-    grid-template-columns:1fr !important;
-    gap:8px;
-  }
-  #myday-root .clock-col{
-    align-items:center;
-  }
-  #myday-root #mood-svg{
-    width:min(186px, 75vw) !important;
-    height:min(186px, 75vw) !important;
-  }
-  #myday-root .tracker-right{
-    min-height:0;
-  }
-  #myday-root .slots-scroll{
-    max-height:200px;
-  }
 
-  /* ── MY DAY 가계부: 날짜/구분 숨기고 3컬럼으로 압축 ── */
-  #myday-root .myday-finance-panel{
-    overflow-x:hidden;
-  }
-  #myday-root .fin-head,
-  #myday-root #fin-rows .fin-item{
-    min-width:0 !important;
-  }
-  #myday-root .fin-item{
-    grid-template-columns:minmax(0,1.4fr) minmax(0,.9fr) 64px 20px !important;
-    gap:3px;
-  }
-  /* 날짜(4번째), 구분(5번째) 컬럼 숨김 */
-  #myday-root .fin-item .fin-date,
-  #myday-root .fin-item .fin-tp,
-  #myday-root .fin-head span:nth-child(4),
-  #myday-root .fin-head span:nth-child(5){
-    display:none;
-  }
-  #myday-root .fin-head{
-    min-width:0 !important;
-    grid-template-columns:minmax(0,1.4fr) minmax(0,.9fr) 64px 20px !important;
-  }
-
-  /* ── 식사 그리드: 세로 스택 ── */
-  #myday-root .meal-grid{grid-template-columns:1fr;}
-  #myday-root .meal-outer{flex-direction:column;}
-
-  /* ── global nav 글자 작게 ── */
-  .gnav-btn{font-size:8px;padding:10px 0;letter-spacing:1px;}
-
-  /* ── stat 카드 2열 ── */
-  .stat-row{grid-template-columns:repeat(2,minmax(0,1fr));}
-
-  /* ── finance overview ── */
-  .fin-cal-outer{grid-template-columns:1fr;}
-  .ov-chart-split{grid-template-columns:1fr;}
-  .ov-main-grid{grid-template-columns:1fr;}
-  .ov-left{border-right:none;}
-}
 
 /* ═══════════════════════════════════════
    iPAD 전용 최적화 (768px ~ 1024px, 터치)
@@ -935,6 +872,72 @@ body.mode-project #project-root{display:block;}
   .mood-cust-name-inp{font-size:12px;min-height:34px;padding:5px 6px;}
   .mc-del,.mc-add{min-height:36px;}
 }
+
+/* ═══════════════════════════════════════
+   모바일 전용 (~ 767px)
+   tracker, 가계부 등 고정폭 레이아웃 대응
+═══════════════════════════════════════ */
+@media(max-width:767px){
+  /* ── 하루 추적: 세로 스택 ── */
+  #myday-root .tracker-grid{
+    grid-template-columns:1fr !important;
+    gap:8px;
+  }
+  #myday-root .clock-col{
+    align-items:center;
+  }
+  #myday-root #mood-svg{
+    width:min(186px, 75vw) !important;
+    height:min(186px, 75vw) !important;
+  }
+  #myday-root .tracker-right{
+    min-height:0;
+  }
+  #myday-root .slots-scroll{
+    max-height:200px;
+  }
+
+  /* ── MY DAY 가계부: 날짜/구분 숨기고 3컬럼으로 압축 ── */
+  #myday-root .myday-finance-panel{
+    overflow-x:hidden;
+  }
+  #myday-root .fin-head,
+  #myday-root #fin-rows .fin-item{
+    min-width:0 !important;
+  }
+  #myday-root .fin-item{
+    grid-template-columns:minmax(0,1.4fr) minmax(0,.9fr) 64px 20px !important;
+    gap:3px;
+  }
+  /* 날짜(4번째), 구분(5번째) 컬럼 숨김 */
+  #myday-root .fin-item .fin-date,
+  #myday-root .fin-item .fin-tp,
+  #myday-root .fin-head span:nth-child(4),
+  #myday-root .fin-head span:nth-child(5){
+    display:none;
+  }
+  #myday-root .fin-head{
+    min-width:0 !important;
+    grid-template-columns:minmax(0,1.4fr) minmax(0,.9fr) 64px 20px !important;
+  }
+
+  /* ── 식사 그리드: 세로 스택 ── */
+  #myday-root .meal-grid{grid-template-columns:1fr;}
+  #myday-root .meal-outer{flex-direction:column;}
+
+  /* ── global nav 글자 작게 ── */
+  .gnav-btn{font-size:8px;padding:10px 0;letter-spacing:1px;}
+
+  /* ── stat 카드 2열 ── */
+  .stat-row{grid-template-columns:repeat(2,minmax(0,1fr));}
+
+  /* ── finance overview ── */
+  .fin-cal-outer{grid-template-columns:1fr;}
+  .ov-chart-split{grid-template-columns:1fr;}
+  .ov-main-grid{grid-template-columns:1fr;}
+  .ov-left{border-right:none;}
+}
+
 </style>
 </head>
 <body>
