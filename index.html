@@ -28,7 +28,10 @@
     <section class="portal-hero">
       <p class="portal-kicker">00 / Select your space</p>
       <h1>Choose the<br><em>system</em> you need.</h1>
-      <p class="portal-intro">하루와 프로젝트를 기록하거나, 재무 흐름을 관리하세요. 두 시스템은 같은 디자인 언어로 연결되지만 데이터와 목적은 분리됩니다.</p>
+      <blockquote class="portal-quote">
+        <p id="daily-quote">오늘 할 수 있는 일에 온전히 집중하세요.</p>
+        <cite id="daily-quote-author">— MARCUS AURELIUS</cite>
+      </blockquote>
     </section>
 
     <nav class="portal-list" aria-label="시스템 선택">
@@ -50,16 +53,62 @@
         </div>
         <span class="portal-arrow">ENTER ↗</span>
       </a>
+      <a class="portal-item archive" href="https://still-archive-jun.sadalmelek95.chatgpt.site/">
+        <span class="portal-number">03</span>
+        <div>
+          <small>NOTION · WRITING · KNOWLEDGE</small>
+          <h2>STILL ARCHIVE</h2>
+          <p>글, 자료, 태그와 카테고리를 Notion 데이터베이스에 축적하고 탐색합니다.</p>
+        </div>
+        <span class="portal-arrow">ENTER ↗</span>
+      </a>
     </nav>
 
     <footer class="portal-footer">
       <span>STILL SYSTEMS · 2026</span>
-      <span>Two spaces. One visual language.</span>
+      <span>Three spaces. One visual language.</span>
     </footer>
   </main>
 
   <script>
     const now = new Date();
+    const quotes = [
+      ["우리의 삶은 우리의 생각이 만드는 것이다.", "MARCUS AURELIUS"],
+      ["중요한 것은 무슨 일이 일어났는지가 아니라 어떻게 반응했는가이다.", "EPICTETUS"],
+      ["행운은 준비가 기회를 만날 때 생긴다.", "SENECA"],
+      ["천 리 길도 한 걸음부터 시작된다.", "LAO TZU"],
+      ["멈추지 않는 한, 얼마나 천천히 가는지는 중요하지 않다.", "CONFUCIUS"],
+      ["잘 보낸 오늘은 행복한 잠을 가져온다.", "LEONARDO DA VINCI"],
+      ["미래는 오늘 무엇을 하는가에 달려 있다.", "MAHATMA GANDHI"],
+      ["단순함은 궁극의 정교함이다.", "LEONARDO DA VINCI"],
+      ["할 수 있다고 믿으면 이미 절반은 이룬 것이다.", "THEODORE ROOSEVELT"],
+      ["성공은 매일 반복한 작은 노력의 합이다.", "ROBERT COLLIER"],
+      ["삶은 이해하기 위해 뒤돌아보고, 살아가기 위해 앞을 보아야 한다.", "SØREN KIERKEGAARD"],
+      ["탁월함은 행동이 아니라 습관이다.", "ARISTOTLE"],
+      ["시간은 가장 현명한 조언자다.", "PERICLES"],
+      ["기회는 일어나는 것이 아니라 만들어내는 것이다.", "CHRIS GROSSER"],
+      ["시작하기 위해 위대할 필요는 없지만, 위대해지려면 시작해야 한다.", "ZIG ZIGLAR"],
+      ["아는 것만으로는 충분하지 않다. 적용해야 한다.", "JOHANN W. VON GOETHE"],
+      ["계획 없는 목표는 한낱 꿈에 불과하다.", "ANTOINE DE SAINT-EXUPÉRY"],
+      ["우리가 반복해서 하는 일이 곧 우리 자신이다.", "WILL DURANT"],
+      ["가장 어두운 밤도 끝나고 해는 떠오른다.", "VICTOR HUGO"],
+      ["삶이 있는 한 희망은 있다.", "CICERO"],
+      ["지혜의 시작은 경이로움이다.", "SOCRATES"],
+      ["좋은 시작은 일의 절반이다.", "ARISTOTLE"],
+      ["당신이 세상에서 보고 싶은 변화가 되어라.", "MAHATMA GANDHI"],
+      ["꿈을 이루는 가장 좋은 방법은 깨어나는 것이다.", "PAUL VALÉRY"],
+      ["오늘은 남은 인생의 첫날이다.", "CHARLES DEDERICH"],
+      ["행동은 모든 성공의 기초 열쇠다.", "PABLO PICASSO"],
+      ["한 번도 실수하지 않은 사람은 새로운 일을 시도한 적이 없다.", "ALBERT EINSTEIN"],
+      ["불가능은 사실이 아니라 하나의 의견이다.", "MUHAMMAD ALI"],
+      ["배움은 결코 마음을 지치게 하지 않는다.", "LEONARDO DA VINCI"],
+      ["잘한 일은 잘 말한 일보다 낫다.", "BENJAMIN FRANKLIN"],
+      ["현재에 충실하라. 모든 순간이 소중하다.", "JOHANN W. VON GOETHE"]
+    ];
+    const quoteDay = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
+    const [quote, author] = quotes[quoteDay % quotes.length];
+    document.getElementById("daily-quote").textContent = `“${quote}”`;
+    document.getElementById("daily-quote-author").textContent = `— ${author}`;
     document.getElementById("portal-date").textContent =
       new Intl.DateTimeFormat("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", weekday: "short" }).format(now);
     if ("serviceWorker" in navigator && location.protocol !== "file:") {

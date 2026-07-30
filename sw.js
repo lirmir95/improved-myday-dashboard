@@ -1,4 +1,4 @@
-const CACHE_NAME = "still-systems-v5";
+const CACHE_NAME = "still-systems-v9";
 const APP_SHELL = [
   "./",
   "./index.html",
