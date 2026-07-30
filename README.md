@@ -3,6 +3,11 @@
 재정 · 일상 · 프로젝트를 하나의 대시보드에서 관리하는 **PWA 웹앱**입니다.  
 GitHub Pages에 올려두고 아이패드/아이폰 홈화면에 앱처럼 추가해 사용할 수 있어요.
 
+MY DAY와 MY PROJECT에는 모던 에디토리얼 디자인과 안전한 Notion 동기화
+계층이 추가되었습니다. SAVE는 날짜별 기록을, 프로젝트 편집은 월별 기록과
+개별 프로젝트를, CONVERT는 날짜별 산출물을 Notion에 upsert합니다. 설정 및
+배포 방법은 [`NOTION_SETUP.md`](./NOTION_SETUP.md)를 참고하세요.
+
 ---
 
 ## 파일 구성

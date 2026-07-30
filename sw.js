@@ -1,14 +1,17 @@
 // MY FINANCE · MY DAY · MY PROJECT — Service Worker
 // ※ GitHub Pages 호환: 상대 경로 기반, scope는 등록 시 자동 결정
 
-const CACHE_VER = 'v2';
+const CACHE_VER = 'v3';
 const CACHE_NAME   = 'myday-app-'  + CACHE_VER;
 const FONT_CACHE   = 'myday-fonts-' + CACHE_VER;
 
 // 앱 핵심 파일 (상대 경로: GitHub Pages 하위 경로에서도 동작)
 const STATIC_ASSETS = [
   './index.html',
-  './manifest.webmanifest'
+  './manifest.webmanifest',
+  './modern.css',
+  './sync-config.js',
+  './notion-sync.js'
 ];
 
 // 외부 폰트 도메인
