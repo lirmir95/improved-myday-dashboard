@@ -165,8 +165,8 @@
     header.appendChild(pill);
   }
 
-  function mountPanel(statusId) {
-    const status = document.getElementById(statusId);
+  function mountPanel(rootId, statusId) {
+    const status = document.querySelector(`#${rootId} #${statusId}`);
     const parent = status?.parentElement;
     if (!parent || parent.querySelector(".notion-sync-panel")) return;
     const panel = document.createElement("div");
@@ -204,8 +204,8 @@
   function init() {
     mountStatus("myday-root");
     mountStatus("project-root");
-    mountPanel("backup-status");
-    mountPanel("project-backup-status");
+    mountPanel("myday-root", "backup-status");
+    mountPanel("project-root", "project-backup-status");
     installHooks();
     if (apiBase()) {
       fetch(apiBase() + "/health")
