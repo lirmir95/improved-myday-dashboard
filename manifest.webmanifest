@@ -1,7 +1,7 @@
 {
-  "name": "STILL DAY — Daily & Project Archive",
-  "short_name": "STILL DAY",
-  "description": "하루, 건강, 운동, 프로젝트를 기록하고 Notion에 자동 백업하는 개인 대시보드",
+  "name": "STILL SYSTEMS — Personal Command Centers",
+  "short_name": "STILL",
+  "description": "하루·건강·프로젝트와 재무 시스템을 연결하는 개인 커맨드 센터",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "any",
@@ -11,13 +11,13 @@
   "categories": ["productivity", "health", "lifestyle"],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%231557ff'/%3E%3Ctext x='96' y='126' text-anchor='middle' font-family='Arial' font-size='82' font-weight='700' fill='white'%3ESD%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%231557ff'/%3E%3Ctext x='96' y='126' text-anchor='middle' font-family='Arial' font-size='82' font-weight='700' fill='white'%3ESS%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%231557ff'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-family='Arial' font-size='220' font-weight='700' fill='white'%3ESD%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%231557ff'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-family='Arial' font-size='220' font-weight='700' fill='white'%3ESS%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"

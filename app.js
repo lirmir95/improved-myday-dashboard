@@ -328,7 +328,11 @@
       link.classList.toggle("active", link.dataset.route === state.route);
     });
     document.getElementById("active-date-label").textContent =
-      state.route === "project" ? monthLabel(state.selectedMonth) : dateLabel(state.selectedDate);
+      state.route === "project"
+        ? monthLabel(state.selectedMonth)
+        : state.route === "calendar"
+          ? monthLabel(state.selectedDate.slice(0, 7))
+          : dateLabel(state.selectedDate);
   }
 
   function dashboardTemplate() {
@@ -449,6 +453,86 @@
           <header><span>Day archive</span><span>${esc(state.selectedDate)}</span></header>
           <div class="comment-text">${day.summary ? esc(day.summary) : "아직 생성된 정리본이 없습니다."}</div>
           <footer><span>날짜별 Notion 자동 백업</span><button class="invert-button" data-action="convert-day">CONVERT ↗</button></footer>
+        </aside>
+      </div>`;
+  }
+
+  function calendarCells(month) {
+    const [year, monthNumber] = month.split("-").map(Number);
+    const first = new Date(year, monthNumber - 1, 1);
+    const start = new Date(year, monthNumber - 1, 1 - first.getDay());
+    return Array.from({ length: 42 }, (_, index) => {
+      const cursor = new Date(start);
+      cursor.setDate(start.getDate() + index);
+      const key = [
+        cursor.getFullYear(),
+        String(cursor.getMonth() + 1).padStart(2, "0"),
+        String(cursor.getDate()).padStart(2, "0")
+      ].join("-");
+      const record = state.dayRecords[key] || {};
+      const workout = state.health.workouts.find((item) => item.date === key);
+      const hasDiary = Boolean(record.summary || record.notes || record.gratitude || record.updatedAt);
+      const preview = record.summary || record.notes || record.tasks?.find((task) => task.text)?.text || (workout ? workout.name : "");
+      return {
+        key,
+        day: cursor.getDate(),
+        outside: cursor.getMonth() !== monthNumber - 1,
+        today: key === today(),
+        selected: key === state.selectedDate,
+        hasDiary,
+        workout: Boolean(workout),
+        preview
+      };
+    });
+  }
+
+  function calendarTemplate() {
+    const month = state.selectedDate.slice(0, 7);
+    const selected = getDay();
+    const workout = state.health.workouts.find((item) => item.date === state.selectedDate);
+    const diaryCount = Object.entries(state.dayRecords).filter(([key, record]) =>
+      key.startsWith(month) && (record.summary || record.notes || record.updatedAt)
+    ).length;
+    const workoutCount = state.health.workouts.filter((item) => item.date.startsWith(month)).length;
+    return `
+      <p class="page-kicker">03 / Calendar · ${esc(month)}</p>
+      <div class="page-title-row">
+        <h1 class="page-title">See the month.<br><em>Open</em> any day.</h1>
+        <div class="hero-stat"><span>Recorded days</span><strong>${diaryCount}</strong><small>${workoutCount} workouts this month</small></div>
+      </div>
+      <div class="calendar-layout">
+        <section>
+          <div class="calendar-board">
+            <div class="calendar-weekdays">${["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => `<span>${day}</span>`).join("")}</div>
+            <div class="calendar-grid">
+              ${calendarCells(month).map((cell) => `
+                <button class="calendar-day ${cell.outside ? "outside" : ""} ${cell.today ? "today" : ""} ${cell.selected ? "selected" : ""}"
+                  data-action="open-calendar-day" data-date="${cell.key}">
+                  <span class="day-number">${cell.day}</span>
+                  <span class="day-markers">
+                    ${cell.hasDiary ? `<i class="day-marker diary" title="일기"></i>` : ""}
+                    ${cell.workout ? `<i class="day-marker workout" title="운동"></i>` : ""}
+                  </span>
+                  ${cell.preview ? `<p>${esc(cell.preview)}</p>` : ""}
+                </button>`).join("")}
+            </div>
+          </div>
+          <div class="calendar-legend">
+            <span><i class="day-marker diary"></i> DAY / DIARY</span>
+            <span><i class="day-marker workout"></i> WORKOUT</span>
+          </div>
+        </section>
+        <aside class="comment-panel calendar-detail">
+          <header><span>Selected / Day archive</span><span>${esc(state.selectedDate)}</span></header>
+          <div class="comment-text">${selected.summary
+            ? esc(selected.summary)
+            : selected.notes
+              ? esc(selected.notes)
+              : "이 날짜에는 아직 생성된 일기가 없습니다."}</div>
+          <footer>
+            <span>${selected.waterCount || 0}/8 water · ${esc(selected.mood || "no mood")}<br>${workout ? `${esc(workout.name)} · ${format(workoutVolume(workout))} kg` : "no workout"}</span>
+            <button class="invert-button" data-action="open-day">OPEN DAY ↗</button>
+          </footer>
         </aside>
       </div>`;
   }
@@ -610,7 +694,7 @@
 
   function trainingTemplate() {
     return `
-      <p class="page-kicker">03 / Training · ${esc(state.selectedDate)}</p>
+      <p class="page-kicker">04 / Training · ${esc(state.selectedDate)}</p>
       <div class="page-title-row">
         <h1 class="page-title">Train.<br><em>Measure.</em> Improve.</h1>
         <div class="hero-stat"><span>This week's volume</span><strong>${format(weeklyVolume())} KG</strong><small>${recentPRs().length} recent personal records</small></div>
@@ -651,7 +735,7 @@
     const change = latest && previous ? num(latest.weight) - num(previous.weight) : 0;
     const weightGoal = state.health.goals.find((goal) => goal.metricType === "BodyWeight");
     return `
-      <p class="page-kicker">04 / Body & Goals</p>
+      <p class="page-kicker">05 / Body & Goals</p>
       <div class="page-title-row">
         <h1 class="page-title">Body data,<br><em>without</em> the noise.</h1>
         <div class="hero-stat"><span>Current weight</span><strong>${latest ? `${format(latest.weight, 1)} KG` : "—"}</strong><small>${latest && previous ? `${change >= 0 ? "↑" : "↓"} ${Math.abs(change).toFixed(1)} kg since last entry` : "첫 측정값을 입력하세요"}</small></div>
@@ -704,7 +788,7 @@
       ? Math.round(month.projects.reduce((sum, project) => sum + projectProgress(project), 0) / month.projects.length)
       : 0;
     return `
-      <p class="page-kicker">05 / My Project · ${esc(state.selectedMonth)}</p>
+      <p class="page-kicker">06 / My Project · ${esc(state.selectedMonth)}</p>
       <div class="page-title-row">
         <h1 class="page-title">Make progress.<br><em>Keep</em> the proof.</h1>
         <div class="hero-stat"><span>Monthly progress</span><strong>${average}%</strong><small>${month.projects.filter((project) => project.status === "Done").length} projects completed</small></div>
@@ -761,7 +845,7 @@
   function settingsTemplate() {
     const colors = ["#1557ff", "#ff4d2e", "#00a676", "#b144ff", "#111111", "#d69d00"];
     return `
-      <p class="page-kicker">06 / Settings</p>
+      <p class="page-kicker">07 / Settings</p>
       <div class="page-title-row">
         <h1 class="page-title">Make it<br><em>yours.</em></h1>
         <div class="hero-stat"><span>Sync status</span><strong>${state.syncState === "ready" ? "READY" : "CHECK"}</strong><small>${esc(apiBase() || "Worker URL not set")}</small></div>
@@ -804,6 +888,7 @@
     const routes = {
       dashboard: dashboardTemplate,
       day: dayTemplate,
+      calendar: calendarTemplate,
       training: trainingTemplate,
       body: bodyTemplate,
       project: projectTemplate,
@@ -814,6 +899,93 @@
     navTemplate();
     updateSidebar();
     main.focus({ preventScroll: true });
+  }
+
+  function searchAll(query) {
+    const term = query.trim().toLocaleLowerCase("ko-KR");
+    if (!term) return [];
+    const results = [];
+
+    Object.entries(state.dayRecords).forEach(([date, record]) => {
+      const tasks = Array.isArray(record.tasks) ? record.tasks.map((task) => task.text).join(" ") : "";
+      const meals = record.meals ? Object.values(record.meals).join(" ") : "";
+      const source = [record.summary, record.notes, record.gratitude, record.mood, tasks, meals].filter(Boolean).join(" ");
+      if (source.toLocaleLowerCase("ko-KR").includes(term)) {
+        results.push({
+          kind: "DAY",
+          title: record.summary ? "Converted diary" : "My Day record",
+          excerpt: record.summary || record.notes || tasks || meals,
+          date,
+          route: "day",
+          sort: date
+        });
+      }
+    });
+
+    Object.entries(state.projectMonths).forEach(([month, record]) => {
+      const monthSource = [record.focus, record.note, record.generatedSummary].filter(Boolean).join(" ");
+      if (monthSource.toLocaleLowerCase("ko-KR").includes(term)) {
+        results.push({
+          kind: "PROJECT",
+          title: `${monthLabel(month)} monthly review`,
+          excerpt: record.generatedSummary || record.focus || record.note,
+          month,
+          route: "project",
+          sort: `${month}-31`
+        });
+      }
+      (record.projects || []).forEach((project) => {
+        const stepText = (project.steps || []).map((step) => step.text).join(" ");
+        const source = [project.name, project.status, project.category, stepText].filter(Boolean).join(" ");
+        if (source.toLocaleLowerCase("ko-KR").includes(term)) {
+          results.push({
+            kind: "PROJECT",
+            title: project.name || "Untitled project",
+            excerpt: stepText || project.status,
+            month,
+            route: "project",
+            sort: `${month}-30`
+          });
+        }
+      });
+    });
+
+    state.health.workouts.forEach((workout) => {
+      const exercises = (workout.exercises || []).map((entry) => exerciseName(entry.exerciseId)).join(" ");
+      const source = [workout.name, workout.notes, exercises].filter(Boolean).join(" ");
+      if (source.toLocaleLowerCase("ko-KR").includes(term)) {
+        results.push({
+          kind: "WORKOUT",
+          title: workout.name || "Workout",
+          excerpt: exercises || workout.notes,
+          date: workout.date,
+          route: "training",
+          sort: workout.date
+        });
+      }
+    });
+
+    return results.sort((a, b) => b.sort.localeCompare(a.sort)).slice(0, 40);
+  }
+
+  function renderSearchResults(query) {
+    const container = document.getElementById("search-results");
+    const results = searchAll(query);
+    if (!query.trim()) {
+      container.innerHTML = "<p>검색어를 입력하면 모든 날짜와 프로젝트 기록을 찾습니다.</p>";
+      return;
+    }
+    if (!results.length) {
+      container.innerHTML = `<p>“${esc(query)}”에 해당하는 기록이 없습니다.</p>`;
+      return;
+    }
+    container.innerHTML = results.map((result) => `
+      <button class="search-result" data-action="open-search-result"
+        data-route="${result.route}" data-date="${result.date || ""}" data-month="${result.month || ""}">
+        <small>${result.kind}</small>
+        <span><strong>${esc(result.title)}</strong><p>${esc(String(result.excerpt || "").slice(0, 150))}</p></span>
+        <time>${esc(result.date || result.month || "")}</time>
+      </button>`).join("");
   }
 
   function generateDaySummary() {
@@ -902,6 +1074,14 @@
       const [year, month] = state.selectedMonth.split("-").map(Number);
       const cursor = new Date(year, month - 1 + direction, 1);
       state.selectedMonth = cursor.toISOString().slice(0, 7);
+    } else if (state.route === "calendar") {
+      const [year, month] = state.selectedDate.slice(0, 7).split("-").map(Number);
+      const cursor = new Date(year, month - 1 + direction, 1);
+      state.selectedDate = [
+        cursor.getFullYear(),
+        String(cursor.getMonth() + 1).padStart(2, "0"),
+        "01"
+      ].join("-");
     } else {
       const cursor = new Date(`${state.selectedDate}T12:00:00`);
       cursor.setDate(cursor.getDate() + direction);
@@ -926,8 +1106,26 @@
 
     if (action === "previous-date") return shiftDate(-1);
     if (action === "next-date") return shiftDate(1);
-    if (action === "quick-add" || action === "focus-search") return document.getElementById("quick-dialog").showModal();
+    if (action === "quick-add") return document.getElementById("quick-dialog").showModal();
+    if (action === "open-search") {
+      const dialog = document.getElementById("search-dialog");
+      dialog.showModal();
+      setTimeout(() => document.getElementById("global-search-input").focus(), 0);
+      return;
+    }
     if (action === "close-quick") return document.getElementById("quick-dialog").close();
+    if (action === "close-search") return document.getElementById("search-dialog").close();
+    if (action === "open-calendar-day") {
+      state.selectedDate = actionEl.dataset.date;
+      return render();
+    }
+    if (action === "open-day") return routeTo("day");
+    if (action === "open-search-result") {
+      if (actionEl.dataset.date) state.selectedDate = actionEl.dataset.date;
+      if (actionEl.dataset.month) state.selectedMonth = actionEl.dataset.month;
+      document.getElementById("search-dialog").close();
+      return routeTo(actionEl.dataset.route || "dashboard");
+    }
     if (action === "convert-day") return convertDay();
     if (action === "convert-project") return convertProject();
     if (action === "set-water") {
@@ -1157,6 +1355,10 @@
     render();
   });
 
+  document.getElementById("global-search-input").addEventListener("input", (event) => {
+    renderSearchResults(event.target.value);
+  });
+
   document.querySelectorAll("[data-route]").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
@@ -1172,7 +1374,9 @@
   document.addEventListener("keydown", (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
       event.preventDefault();
-      document.getElementById("quick-dialog").showModal();
+      const dialog = document.getElementById("search-dialog");
+      if (!dialog.open) dialog.showModal();
+      document.getElementById("global-search-input").focus();
     }
   });
 

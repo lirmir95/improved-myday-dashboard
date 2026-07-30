@@ -1,8 +1,10 @@
-const CACHE_NAME = "still-day-v4";
+const CACHE_NAME = "still-systems-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./day.html",
   "./app.css",
+  "./portal.css",
   "./app.js",
   "./sync-config.js",
   "./manifest.webmanifest"
