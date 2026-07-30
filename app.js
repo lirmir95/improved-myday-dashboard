@@ -7,7 +7,14 @@
   const SETTINGS_KEY = "still_day_settings_v2";
   const API_OVERRIDE_KEY = "myday_notion_api_base_v1";
 
-  const today = () => new Date().toISOString().slice(0, 10);
+  const today = () => {
+    const date = new Date();
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
+  };
   const currentMonth = () => today().slice(0, 7);
   const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const esc = (value = "") => String(value).replace(/[&<>"']/g, (char) => ({
