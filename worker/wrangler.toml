@@ -1,0 +1,11 @@
+name = "myday-notion-sync"
+main = "src/worker.js"
+compatibility_date = "2026-07-30"
+
+[vars]
+NOTION_VERSION = "2026-03-11"
+DAY_DATA_SOURCE_ID = "1b336425-b49c-49ac-a07c-e1dc198f15f4"
+PROJECT_MONTH_DATA_SOURCE_ID = "f69965e6-096a-481f-b3f1-169956aaf87a"
+PROJECT_DATA_SOURCE_ID = "7e70f2f8-f29a-407c-a7fa-46dd30f4285b"
+CONVERT_DATA_SOURCE_ID = "a7652cd5-45e4-4a6f-9f3c-e37587682cdc"
+ALLOWED_ORIGIN = "https://lirmir95.github.io"
