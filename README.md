@@ -1,36 +1,26 @@
-# ✦ MY FINANCE · MY DAY · MY PROJECT
+# STILL DAY
 
-재정 · 일상 · 프로젝트를 하나의 대시보드에서 관리하는 **PWA 웹앱**입니다.  
-GitHub Pages에 올려두고 아이패드/아이폰 홈화면에 앱처럼 추가해 사용할 수 있어요.
+하루, 건강, 운동, 프로젝트를 하나의 편집형 인터페이스에서 기록하고 Notion에 자동 백업하는 정적 PWA입니다.
 
-MY DAY와 MY PROJECT에는 모던 에디토리얼 디자인과 안전한 Notion 동기화
-계층이 추가되었습니다. SAVE는 날짜별 기록을, 프로젝트 편집은 월별 기록과
-개별 프로젝트를, CONVERT는 날짜별 산출물을 Notion에 upsert합니다. 설정 및
-배포 방법은 [`NOTION_SETUP.md`](./NOTION_SETUP.md)를 참고하세요.
+## 주요 화면
 
----
+- Dashboard — 하루·건강·운동·프로젝트 요약 및 일일 Convert
+- My Day — 수분, 수면, 에너지, 기분, 식사, 할 일, 메모
+- Training — 운동 기록, 세트/중량/반복/RPE, PR 자동 판정, 운동 라이브러리, 루틴
+- Body & Goals — 체중·체지방 추이와 목표 진행률
+- My Project — 월간 프로젝트, 다음 행동, 진행률, 월간 Convert
+- Settings — 강조 색상, 대표 지표, Notion 연결
 
-## 파일 구성
+기존 `myday_v5`, `my_project_dashboard_v1` 로컬 저장 키를 그대로 사용해 과거 기록을 유지합니다.
 
+## Notion 동기화
+
+브라우저는 Cloudflare Worker만 호출하며 Notion 토큰은 서버 secret으로 보관합니다. 설정은 [`NOTION_SETUP.md`](./NOTION_SETUP.md)를 참고하세요.
+
+## 로컬 실행
+
+```powershell
+node tools/serve.mjs
 ```
-index.html            ← 메인 앱 (이거 하나에 모든 기능 포함)
-manifest.webmanifest  ← PWA 설정 (홈화면 아이콘, 앱 이름 등)
-sw.js                 ← Service Worker (오프라인 캐싱)
-README.md             ← 이 파일
-```
 
----
-
-## 기능
-
-- **MY FINANCE** — 월별 예산, 고정지출, 저축 계획, 변동지출 캘린더
-- **MY DAY** — 일일 루틴, 식단, 무드트래커, 운동, 수면, 메모
-- **MY PROJECT** — 프로젝트 관리, 마일스톤, 일정, 회고
-- **오프라인 지원** — 한 번 접속 후 인터넷 없이도 사용 가능
-- **테마 커스터마이즈** — 색상, 폰트, 배경 이미지 변경
-- **데이터 백업** — JSON 내보내기/가져오기
-
----
-
-> 모든 데이터는 기기 로컬(`localStorage`)에 저장됩니다.  
-> 저장소에 개인 정보가 올라가지 않아요.
+이후 `http://localhost:3000`에서 확인합니다.
