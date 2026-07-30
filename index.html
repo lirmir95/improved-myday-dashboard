@@ -3,101 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#1557ff">
+  <meta name="theme-color" content="#11110f">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="STILL DAY">
-  <title>STILL DAY — Daily & Project Archive</title>
+  <meta name="apple-mobile-web-app-title" content="STILL">
+  <title>STILL — Personal Command Centers</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./portal.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <a href="#dashboard" class="brand-mark" aria-label="STILL DAY 홈">
-          <span class="brand-dot"></span>
-          <span>STILL</span>
-          <sup>DAY</sup>
-        </a>
-        <p>Personal day command center</p>
-      </div>
-
-      <nav class="side-nav" aria-label="주요 메뉴">
-        <a href="#dashboard" data-route="dashboard"><span>01</span><i>□</i><b>Dashboard</b></a>
-        <a href="#day" data-route="day"><span>02</span><i>☼</i><b>My Day</b></a>
-        <a href="#training" data-route="training"><span>03</span><i>↗</i><b>Training</b></a>
-        <a href="#body" data-route="body"><span>04</span><i>◎</i><b>Body & Goals</b></a>
-        <a href="#project" data-route="project"><span>05</span><i>≡</i><b>My Project</b></a>
-      </nav>
-
-      <div class="side-summary" id="side-summary"></div>
-
-      <a class="settings-link" href="#settings" data-route="settings">
-        <span>Settings</span><span>↗</span>
+  <main class="portal">
+    <header class="portal-head">
+      <a class="portal-brand" href="./index.html">
+        <span class="portal-dot"></span>
+        <strong>STILL</strong>
+        <sup>SYSTEMS</sup>
       </a>
-    </aside>
+      <p>Personal command centers</p>
+      <span class="portal-date" id="portal-date"></span>
+    </header>
 
-    <section class="workspace">
-      <header class="topbar">
-        <button class="mobile-menu" id="mobile-menu" type="button" aria-label="메뉴 열기">☰</button>
-        <div class="date-switcher">
-          <button type="button" data-action="previous-date" aria-label="이전 날짜">←</button>
-          <strong id="active-date-label"></strong>
-          <button type="button" data-action="next-date" aria-label="다음 날짜">→</button>
-        </div>
-        <div class="top-actions">
-          <button class="search-trigger" type="button" data-action="focus-search">Search <kbd>⌘K</kbd></button>
-          <span class="sync-state" id="sync-state" data-state="checking">Checking Notion</span>
-          <button class="primary-button" type="button" data-action="quick-add">+ QUICK ADD</button>
-        </div>
-      </header>
-
-      <main id="app-main" tabindex="-1"></main>
-
-      <footer class="statusbar">
-        <span id="status-message">Autosave on</span>
-        <span>Local-first · Notion backup</span>
-      </footer>
+    <section class="portal-hero">
+      <p class="portal-kicker">00 / Select your space</p>
+      <h1>Choose the<br><em>system</em> you need.</h1>
+      <p class="portal-intro">하루와 프로젝트를 기록하거나, 재무 흐름을 관리하세요. 두 시스템은 같은 디자인 언어로 연결되지만 데이터와 목적은 분리됩니다.</p>
     </section>
-  </div>
 
-  <div class="mobile-scrim" id="mobile-scrim"></div>
-
-  <dialog id="quick-dialog">
-    <form method="dialog" class="dialog-form" id="quick-form">
-      <div class="dialog-head">
+    <nav class="portal-list" aria-label="시스템 선택">
+      <a class="portal-item day" href="./day.html#dashboard">
+        <span class="portal-number">01</span>
         <div>
-          <small>QUICK ADD</small>
-          <h2>기록 추가</h2>
+          <small>DAILY · HEALTH · PROJECT</small>
+          <h2>STILL DAY</h2>
+          <p>하루 기록, 운동, 신체 변화, 목표와 프로젝트를 한곳에서 관리합니다.</p>
         </div>
-        <button type="button" data-action="close-quick" aria-label="닫기">×</button>
-      </div>
-      <label>종류
-        <select name="type">
-          <option value="task">오늘 할 일</option>
-          <option value="note">메모</option>
-          <option value="meal">식사</option>
-          <option value="project">프로젝트</option>
-        </select>
-      </label>
-      <label>내용
-        <input name="content" required autocomplete="off" placeholder="무엇을 기록할까요?">
-      </label>
-      <div class="dialog-actions">
-        <button type="button" data-action="close-quick">취소</button>
-        <button class="primary-button" value="default" data-action="submit-quick">추가</button>
-      </div>
-    </form>
-  </dialog>
+        <span class="portal-arrow">ENTER ↗</span>
+      </a>
+      <a class="portal-item finance" href="https://still-finance-jun.sadalmelek95.chatgpt.site/">
+        <span class="portal-number">02</span>
+        <div>
+          <small>LEDGER · SAVINGS · INVESTMENT</small>
+          <h2>STILL FINANCE</h2>
+          <p>거래, 예산, 저축, 투자, 카드와 보험을 관리하는 재무 커맨드 센터입니다.</p>
+        </div>
+        <span class="portal-arrow">ENTER ↗</span>
+      </a>
+    </nav>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <footer class="portal-footer">
+      <span>STILL SYSTEMS · 2026</span>
+      <span>Two spaces. One visual language.</span>
+    </footer>
+  </main>
 
-  <script src="./sync-config.js"></script>
-  <script src="./app.js"></script>
   <script>
+    const now = new Date();
+    document.getElementById("portal-date").textContent =
+      new Intl.DateTimeFormat("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", weekday: "short" }).format(now);
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
       navigator.serviceWorker.register("./sw.js").catch(() => {});
     }

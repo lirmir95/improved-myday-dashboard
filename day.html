@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1557ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="STILL DAY">
+  <title>STILL DAY — Daily & Project Archive</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <a href="#dashboard" class="brand-mark" aria-label="STILL DAY 홈">
+          <span class="brand-dot"></span>
+          <span>STILL</span>
+          <sup>DAY</sup>
+        </a>
+        <p>Personal day command center</p>
+      </div>
+
+      <nav class="side-nav" aria-label="주요 메뉴">
+        <a href="#dashboard" data-route="dashboard"><span>01</span><i>□</i><b>Dashboard</b></a>
+        <a href="#day" data-route="day"><span>02</span><i>☼</i><b>My Day</b></a>
+        <a href="#calendar" data-route="calendar"><span>03</span><i>▦</i><b>Calendar</b></a>
+        <a href="#training" data-route="training"><span>04</span><i>↗</i><b>Training</b></a>
+        <a href="#body" data-route="body"><span>05</span><i>◎</i><b>Body & Goals</b></a>
+        <a href="#project" data-route="project"><span>06</span><i>≡</i><b>My Project</b></a>
+      </nav>
+
+      <div class="side-summary" id="side-summary"></div>
+
+      <a class="settings-link" href="#settings" data-route="settings">
+        <span>Settings</span><span>↗</span>
+      </a>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" type="button" aria-label="메뉴 열기">☰</button>
+        <div class="date-switcher">
+          <button type="button" data-action="previous-date" aria-label="이전 날짜">←</button>
+          <strong id="active-date-label"></strong>
+          <button type="button" data-action="next-date" aria-label="다음 날짜">→</button>
+        </div>
+        <div class="top-actions">
+          <button class="search-trigger" type="button" data-action="open-search">Search <kbd>⌘K</kbd></button>
+          <span class="sync-state" id="sync-state" data-state="checking">Checking Notion</span>
+          <button class="primary-button" type="button" data-action="quick-add">+ QUICK ADD</button>
+        </div>
+      </header>
+
+      <main id="app-main" tabindex="-1"></main>
+
+      <footer class="statusbar">
+        <span id="status-message">Autosave on</span>
+        <span>Local-first · Notion backup</span>
+      </footer>
+    </section>
+  </div>
+
+  <div class="mobile-scrim" id="mobile-scrim"></div>
+
+  <dialog id="quick-dialog">
+    <form method="dialog" class="dialog-form" id="quick-form">
+      <div class="dialog-head">
+        <div>
+          <small>QUICK ADD</small>
+          <h2>기록 추가</h2>
+        </div>
+        <button type="button" data-action="close-quick" aria-label="닫기">×</button>
+      </div>
+      <label>종류
+        <select name="type">
+          <option value="task">오늘 할 일</option>
+          <option value="note">메모</option>
+          <option value="meal">식사</option>
+          <option value="project">프로젝트</option>
+        </select>
+      </label>
+      <label>내용
+        <input name="content" required autocomplete="off" placeholder="무엇을 기록할까요?">
+      </label>
+      <div class="dialog-actions">
+        <button type="button" data-action="close-quick">취소</button>
+        <button class="primary-button" value="default" data-action="submit-quick">추가</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="search-dialog" class="search-dialog">
+    <div class="dialog-form">
+      <div class="dialog-head">
+        <div>
+          <small>GLOBAL SEARCH</small>
+          <h2>기록 찾기</h2>
+        </div>
+        <button type="button" data-action="close-search" aria-label="닫기">×</button>
+      </div>
+      <label>Search
+        <input id="global-search-input" autocomplete="off" placeholder="일기, 할 일, 프로젝트, 운동 검색">
+      </label>
+      <div class="search-results" id="search-results">
+        <p>검색어를 입력하면 모든 날짜와 프로젝트 기록을 찾습니다.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="./sync-config.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>
